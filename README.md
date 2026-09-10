@@ -1,17 +1,35 @@
-# mimo-login-bypass
+# xiaomi-mimo-desktop
 
 Patch Xiaomi MiMo Desktop (`app.asar`) so the app skips the startup login wall and opens the main UI directly.
 
 **Scope:** UI gate only. Server-side model APIs still require a valid account / API key.
 
-## Files
+## Download
+
+Pre-patched binary is on **[Releases](https://github.com/Fly143/xiaomi-mimo-desktop/releases)** — not in git.
+
+| Release | Asset | Base app version |
+|---------|-------|------------------|
+| [v26.909.91205](https://github.com/Fly143/xiaomi-mimo-desktop/releases/tag/v26.909.91205) | `app.asar` | 26.909.91205 |
+
+```
+https://github.com/Fly143/xiaomi-mimo-desktop/releases/download/v26.909.91205/app.asar
+```
+
+Install (exit Xiaomi MiMo first, admin):
+
+```powershell
+Copy-Item .\app.asar "C:\Program Files\Xiaomi MiMo\resources\app.asar" -Force
+```
+
+## Repo files
 
 | File | Role |
 |------|------|
 | `patch-mimo-login-bypass.ps1` | In-place equal-length patch of `START_AUTH_BYPASS` |
 | `patch-mimo-login-bypass.cmd` | Double-click wrapper (UAC elevate + run + restart) |
 
-No proprietary binaries (`app.asar` / installer) are committed.
+Git history keeps the **scripts** only. The patched `app.asar` (~99 MB) is published as a **Release asset** each time the base app version changes.
 
 ## What it changes
 
@@ -35,7 +53,7 @@ domain START_AUTH_BYPASS
   → main UI, no login page
 ```
 
-## Usage (after each app update)
+## Re-patch after app update
 
 Run as **Administrator**:
 
@@ -75,6 +93,6 @@ Copy-Item "C:\Program Files\Xiaomi MiMo\resources\app.asar.bak" `
 
 ## Notes
 
-- Auto-update overwrites `app.asar`; re-run the script after updates.
+- Auto-update overwrites `app.asar`; re-run the script or grab a new Release asset.
 - The app process must be stopped first (script does this).
 - For local / research use on a machine you control.
